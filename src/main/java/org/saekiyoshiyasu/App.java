@@ -4,6 +4,9 @@ import org.apache.kafka.streams.KafkaStreams;
 
 import org.apache.kafka.streams.state.QueryableStoreTypes;
 import org.apache.kafka.streams.state.ReadOnlyKeyValueStore;
+import org.apache.kafka.streams.state.StreamsMetadata;
+import java.util.Collection;
+
 /**
  * @author laclefyoshi
  */
@@ -42,11 +45,17 @@ public class App {
         KafkaStreams streams = builder.build();
         streams.start();
 
-        ReadOnlyKeyValueStore<String, Long> store =
-            streams.store(storeName + "-ro", QueryableStoreTypes.<String, Long>keyValueStore());
+        Collection<StreamsMetadata> metadata = streams.allMetadata();
+        for (StreamsMetadata m: metadata) {
+            System.out.println(m);
+        }
+        System.out.println("query store");
+        // ReadOnlyKeyValueStore<String, Long> store =
+        //streams.store(storeName, QueryableStoreTypes.<String, Long>keyValueStore());
         for (int i = 0; i < 10; i++) {
-            Long num = store.get("kafka");
-            System.out.println(String.format("%s -> num", "kafka", num));
+            //Long num = store.get("kafka");
+            //System.out.println(String.format("%s -> num", "kafka", num));
+            System.out.println(metadata);
             try {
                 Thread.sleep(5000);
             } catch (Exception e) {

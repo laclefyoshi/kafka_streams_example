@@ -22,13 +22,16 @@ public class WordCountStreamsBuilder {
     private String zookeepers;
     private String inputStream;
     private String outputStream;
+    private String storeName;
 
     public WordCountStreamsBuilder(final String brkrs, final String zks,
-                                   final String iStream, final String oStream) {
+                                   final String iStream, final String oStream,
+                                   final String sName) {
         brokers = brkrs;
         zookeepers = zks;
         inputStream = iStream;
         outputStream = oStream;
+        storeName = sName;
     }
 
     public KafkaStreams build() {
@@ -39,7 +42,7 @@ public class WordCountStreamsBuilder {
             textLines
             .flatMapValues(value -> Arrays.asList(value.toLowerCase().split("\\W+")))
             .groupBy((key, word) -> word)
-            .count("Counts")
+            .count(storeName)
             .toStream();
         wordCounts.to(stringSerde, longSerde, outputStream);
         KafkaStreams streams = new KafkaStreams(builder, makeConf());

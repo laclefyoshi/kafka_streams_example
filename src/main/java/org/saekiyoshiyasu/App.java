@@ -45,17 +45,18 @@ public class App {
         KafkaStreams streams = builder.build();
         streams.start();
 
-        Collection<StreamsMetadata> metadata = streams.allMetadata();
-        for (StreamsMetadata m: metadata) {
-            System.out.println(m);
-        }
-        System.out.println("query store");
-        // ReadOnlyKeyValueStore<String, Long> store =
-        //streams.store(storeName, QueryableStoreTypes.<String, Long>keyValueStore());
         for (int i = 0; i < 10; i++) {
-            //Long num = store.get("kafka");
-            //System.out.println(String.format("%s -> num", "kafka", num));
-            System.out.println(metadata);
+            Collection<StreamsMetadata> metadata = streams.allMetadata();
+            if (metadata.size() > 0) {
+                for (StreamsMetadata m: metadata) {
+                    System.out.println(m);
+                }
+                ReadOnlyKeyValueStore<String, Long> store =
+                    streams.store(storeName,
+                                  QueryableStoreTypes.<String, Long>keyValueStore());
+                Long num = store.get("kafka");
+                System.out.println(String.format("%s -> num", "kafka", num));
+            }
             try {
                 Thread.sleep(5000);
             } catch (Exception e) {

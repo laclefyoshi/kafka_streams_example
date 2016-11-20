@@ -1,6 +1,7 @@
 package org.saekiyoshiyasu;
 
 import org.apache.kafka.streams.KafkaStreams;
+import spark.Spark;
 
 /**
  * @author ysaeki

@@ -9,6 +9,7 @@ import org.apache.kafka.streams.kstream.KStream;
 import org.apache.kafka.streams.kstream.KStreamBuilder;
 import org.apache.kafka.streams.state.HostInfo;
 
+import java.nio.file.Files;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
@@ -43,9 +44,10 @@ public class QueryableWordCountStreamsBuilder {
         applicationHost = appHost;
         applicationPort = appPort;
         try {
-            File tmp = File.createTempFile(stateDir, ".tmp");
-            tmp.delete();
-            tmp.mkdir();
+            String tmpDir = System.getProperty("java.io.tmpdir");
+            File tmp =
+                Files.createTempDirectory(new File(tmpDir).toPath(),
+                                          "stateStore").toFile();
             stateDirectory = tmp.getAbsolutePath();
         } catch (IOException ioe) {
             ioe.printStackTrace();

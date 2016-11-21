@@ -45,6 +45,8 @@ public class App {
         KafkaStreams streams = builder.build();
         streams.start();
 
+        startRestProxy(streams, storeName);
+
         for (int i = 0; i < 100; i++) {
             Collection<StreamsMetadata> metadata = streams.allMetadata();
             if (metadata.size() > 0) {
@@ -63,16 +65,12 @@ public class App {
                 e.printStackTrace();
             }
         }
-
-        //startRestProxy(streams, applicationHost, applicationPort);
     }
 
     private static void startRestProxy(final KafkaStreams streams,
-                                       final String applicationHost,
-                                       final int applicationPort) {
+                                       final String storeName) {
         QueryableWordCountProxy service =
-            new QueryableWordCountProxy(streams,
-                                        applicationHost, applicationPort);
+            new QueryableWordCountProxy(streams, storeName);
         service.start();
     }
 }

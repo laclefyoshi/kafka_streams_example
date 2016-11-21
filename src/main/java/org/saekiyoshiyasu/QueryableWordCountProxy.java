@@ -12,6 +12,8 @@ public class QueryableWordCountProxy {
 
     private KafkaStreams streams;
     private String storeName;
+    private String applicationHost;
+    private int applicationPort;
     private String html =
         "<!DOCTYPE html>\n"
         + "<html><head><meta charset=\"UTF-8\"><title>Counter</title></head><body>"
@@ -20,15 +22,20 @@ public class QueryableWordCountProxy {
         + "<thead><tr><th>Word</th><th>Count</th></tr></thead>"
         + "<tbody><tr><th>%s</th><th>%d</th></tr></tbody></table>"
         + "</div></body></html>";
-    
+
     public QueryableWordCountProxy(final KafkaStreams s,
-                                   final String sName) {
+                                   final String sName,
+                                   final String appHost,
+                                   final int appPort) {
         streams = s;
         storeName = sName;
+        applicationHost = appHost;
+        applicationPort = appPort;
     }
 
     public void start() {
-        Spark.port(4567);
+        Spark.ipAddress(applicationHost);
+        Spark.port(applicationPort);
         Spark.get("/results/:key", (req, resp) -> {
                 String key = req.params(":key");
                 ReadOnlyKeyValueStore<String, Long> store =

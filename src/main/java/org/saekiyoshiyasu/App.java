@@ -45,7 +45,7 @@ public class App {
         KafkaStreams streams = builder.build();
         streams.start();
 
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 100; i++) {
             Collection<StreamsMetadata> metadata = streams.allMetadata();
             if (metadata.size() > 0) {
                 for (StreamsMetadata m: metadata) {
@@ -55,7 +55,7 @@ public class App {
                     streams.store(storeName,
                                   QueryableStoreTypes.<String, Long>keyValueStore());
                 Long num = store.get("kafka");
-                System.out.println(String.format("%s -> num", "kafka", num));
+                System.out.println(String.format("%s -> %d", "kafka", num));
             }
             try {
                 Thread.sleep(5000);

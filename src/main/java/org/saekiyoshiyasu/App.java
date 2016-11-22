@@ -45,9 +45,9 @@ public class App {
         KafkaStreams streams = builder.build();
         streams.start();
 
-        QueryableWordCountProxy service =
-            new QueryableWordCountProxy(streams, storeName,
-                                        applicationHost, applicationPort);
+        QueryableWordCountService service =
+            new QueryableWordCountService(streams, storeName,
+                                          applicationHost, applicationPort);
         service.start();
 
         for (int i = 0; i < 100; i++) {

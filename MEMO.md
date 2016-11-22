@@ -30,3 +30,8 @@ $ ./bin/kafka-console-consumer.sh --topic output-stream \
     --property key.deserializer=org.apache.kafka.common.serialization.StringDeserializer \
     --property value.deserializer=org.apache.kafka.common.serialization.LongDeserializer
 ```
+
+```
+$ open http://127.0.0.1:18080/results/kafka
+```
+

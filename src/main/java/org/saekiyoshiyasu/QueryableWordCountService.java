@@ -8,7 +8,7 @@ import spark.Spark;
 /**
  * @author ysaeki
  */
-public class QueryableWordCountProxy {
+public class QueryableWordCountService {
 
     private KafkaStreams streams;
     private String storeName;
@@ -23,10 +23,10 @@ public class QueryableWordCountProxy {
         + "<tbody><tr><th>%s</th><th>%d</th></tr></tbody></table>"
         + "</div></body></html>";
 
-    public QueryableWordCountProxy(final KafkaStreams s,
-                                   final String sName,
-                                   final String appHost,
-                                   final int appPort) {
+    public QueryableWordCountService(final KafkaStreams s,
+                                     final String sName,
+                                     final String appHost,
+                                     final int appPort) {
         streams = s;
         storeName = sName;
         applicationHost = appHost;
